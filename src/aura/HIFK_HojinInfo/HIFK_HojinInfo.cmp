@@ -1,0 +1,10 @@
+<aura:component controller="HIFK_HojinInfo" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="recordId" type="String" default="{!v.recordId}" />
+    
+    <div>
+        <img src="{!$Resource.HojinInfoLogo}" class="logo" />
+        <c:HIFK_HojinList recordId="{!v.recordId}" />
+        <c:HIFK_HojinDetail recordId="{!v.recordId}" />
+    </div>
+    <iframe src="/apex/HIFK_HojinInfoAnalytics" frameBorder="0" height="0" width="0" />
+</aura:component>

@@ -1,0 +1,95 @@
+<aura:component controller="HIFK_HojinInfo" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="account" type="Account"/>
+    <aura:attribute name="status" type="String"/>
+    <aura:attribute name="hojinListToShow" type="Object"/>
+    <aura:attribute name="hojinListAll" type="Object"/>
+    <aura:attribute name="hojinListSmall" type="Object"/>
+    <aura:attribute name="show" type="Boolean" default="false"/>
+    <aura:attribute name="showAll" type="Boolean" default="false"/>
+    <aura:handler event="c:HIFK_ShowHojinList" action="{!c.showList}"/>
+    <aura:registerEvent name="hojinSelected" type="c:HIFK_HojinSelected"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+    
+    <div id="HIFK_HojinList">
+        <aura:renderIf isTrue="{!v.show}">
+            <div id="title" class="slds-text-heading--small">
+                {!v.status}
+            </div>
+            <article class="slds-card card-table">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-contact" >
+                                <lightning:icon iconName="standard:account" />
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <h2>
+                                <a href="javascript:void(0);" class="slds-card__header-link slds-truncate">
+                                    <span class="slds-text-heading--small">  
+                                        法人情報 ({!v.hojinListAll.length})
+                                    </span>
+                                </a>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body">
+                    <table class="slds-table slds-table--bordered slds-no-row-hover slds-table--cell-buffer">
+                        <thead>
+                            <tr class="slds-text-title--caps">
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Name">法人番号</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Company">法人名</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Title">本店所在地</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:renderIf isTrue="{!v.hojinListToShow.length==0}">
+                                <tr class="slds-hint-parent">
+                                    <th scope="row" colspan="3">
+                                        この法人名では該当データがありません。
+                                    </th>
+                                </tr>
+                                <aura:set attribute="else">
+                                    <aura:iteration items="{!v.hojinListToShow}" var="item">
+                                        <tr class="slds-hint-parent">
+                                            <th scope="row">
+                                                <div class="slds-truncate" title="Adam Choi">{!item.corporateID.value}</div>
+                                            </th>
+                                            <td>
+                                                <div class="slds-truncate" title="Company One"><a onclick="{!c.selectHojin}" id="{!item.corporateID.value}">{!item.corporateName.value}</a></div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title="Director of Operations">{!item.location.value}</div>
+                                            </td>
+                                        </tr>
+                                    </aura:iteration>
+                                </aura:set>
+                            </aura:renderIf>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="slds-card__footer text-align-left">
+                    <aura:renderIf isTrue="{!v.hojinListAll.length>3}">
+                        <aura:renderIf isTrue="{!!v.showAll}">
+                            <a onclick="{!c.showAll}">View All</a>
+                            <aura:set attribute="else">
+                                <a onclick="{!c.showFewer}">Show Fewer</a>
+                            </aura:set>
+                        </aura:renderIf>
+                    </aura:renderIf>
+                </div>
+            </article>
+        <lightning:spinner variant="brand" size="medium" aura:id="spinner" alternativeText="Loading"/>
+        </aura:renderIf>
+    </div>
+</aura:component>

@@ -1,0 +1,82 @@
+<aura:component controller="HIFK_HojinInfo" implements="force:appHostable,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+    
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="show" type="Boolean" default="true" />
+    <aura:attribute name="status" type="String" />
+    <aura:attribute name="account" type="Account" />
+    <aura:attribute name="hojinObj" type="Object"/>
+    <aura:attribute name="hojinId" type="String"/>
+    <aura:attribute name="isExisting" type="Boolean"/>
+    <aura:attribute name="isSame" type="Boolean" default="false"/>
+    <aura:handler event="c:HIFK_HojinSelected" action="{!c.hojinSelected}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+    
+    <div id="HIFK_HojinDetail">
+        <aura:renderIf isTrue="{!v.show}">
+            <article class="slds-card slds-card--narrow">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-contact" >
+                                <lightning:icon iconName="standard:account" />
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <h2>
+                                <span class="slds-text-heading--small">
+                                    {!v.status}
+                                </span>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body">
+                    <div class="slds-card__body--inner">
+                        <aura:renderIf isTrue="{!v.hojinObj.corporateName==null}">
+                            該当法人番号での登録情報は見つかりませんでした。
+                            <div class="margin-top1">
+                                <button class="slds-button slds-button--brand" onclick="{!c.showList}">取引先名で法人インフォを検索する</button>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-tile">
+                                    <div class="slds-tile__detail slds-text-body--medium">
+                                        <dl class="slds-list--horizontal slds-wrap">
+                                            <dt class="slds-item--label slds-text-color--weak slds-truncate">法人番号:</dt>
+                                            <dd class="slds-item--detail slds-truncate">{!v.hojinObj.corporateID.value}</dd>
+                                            <dt class="slds-item--label slds-text-color--weak slds-truncate">法人名:</dt>
+                                            <dd class="slds-item--detail slds-truncate">{!v.hojinObj.formattedName}</dd>
+                                            <dt class="slds-item--label slds-text-color--weak slds-truncate">本店所在地:</dt>
+                                            <dd class="slds-item--detail slds-truncate">{!'〒'+v.hojinObj.formattedZip}<br/>
+                                                {!v.hojinObj.location.value}
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <div class="margin-top1">
+                                    <button class="slds-button slds-button--brand" onclick="{!c.updateAccount}">この情報で取引先レコードを更新</button>
+                                    <aura:renderif isTrue="{!v.isExisting}">
+                                        <aura:renderif isTrue="{!v.isSame}">
+                                            <span class="slds-badge badge">
+                                                更新なし
+                                            </span>
+                                            <aura:set attribute="else">
+                                                <span class="slds-badge badge slds-theme--error">
+                                                    更新あり!
+                                                </span>
+                                            </aura:set>
+                                        </aura:renderif>
+                                    </aura:renderif>
+                                </div>
+                            </aura:set>
+                        </aura:renderIf>
+                    </div>
+                </div>
+            </article>
+        <lightning:spinner variant="brand" size="medium" aura:id="spinner" alternativeText="Loading"/>
+        </aura:renderIf>
+        
+    </div>
+</aura:component>
