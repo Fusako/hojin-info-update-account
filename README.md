@@ -3,10 +3,10 @@
 法人名・住所・法人番号を、正確な情報で更新することが可能になります。 
 
 ## 機能紹介
-### 取引先名で検索しレコードを更新
+### 1. 取引先名で検索しレコードを更新
 <image src="https://github.com/Fusako/hojin-info-update-account/blob/master/assets/Feature1.png?raw=true"/>
 
-### 法人番号で検索しレコードを更新
+### 2. 法人番号で検索しレコードを更新
 <image src="https://github.com/Fusako/hojin-info-update-account/blob/master/assets/Feature2.png?raw=true"/>
 
 ## 設定方法
