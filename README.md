@@ -15,6 +15,7 @@
 2. [非管理パッケージ](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t28000000XWew) をインストール
 
 3. "法人インフォ情報取得" コンポーネントを取引先レコードレイアウトに配置
+<image src="https://github.com/Fusako/hojin-info-update-account/blob/master/assets/HowToSetup.png?raw=true"/>
 
 ## ライセンス
 詳細は `LICENSE` ファイルをご覧ください。
